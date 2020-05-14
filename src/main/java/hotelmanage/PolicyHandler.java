@@ -9,10 +9,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PolicyHandler{
+public class PolicyHandler {
 
     @Autowired
     ReservationManagementRepository reservationManagementrepository;
+
+
 
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPaymentCompleted_ChangeResvStatus(@Payload PaymentCompleted paymentcompleted){
@@ -27,7 +29,6 @@ public class PolicyHandler{
             }
 
         }
-
     }
 
 }

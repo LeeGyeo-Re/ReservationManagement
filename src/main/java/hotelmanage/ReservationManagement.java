@@ -28,6 +28,35 @@ public class ReservationManagement {
     private Integer roomNumber;
     private Integer PaymentPrice;
 
+    private Integer productId;
+    private Integer orderedCnt;
+
+    public Integer getOrderedCnt() {
+        return orderedCnt;
+    }
+
+    public void setOrderedCnt(Integer orderedCnt) {
+        this.orderedCnt = orderedCnt;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getOrderCnt() {
+        return orderCnt;
+    }
+
+    public void setOrderCnt(Integer orderCnt) {
+        this.orderCnt = orderCnt;
+    }
+
+    private Integer orderCnt;
+
 
 
     @PrePersist
@@ -42,6 +71,15 @@ public class ReservationManagement {
         reserved.setPaymentPrice(this.getPaymentPrice());
 
         reserved.publishAfterCommit();
+
+        if(getProductId() != null) {
+            Ordered ordered = new Ordered();
+            System.out.println("=============주문=============");
+            ordered.setOrderCnt(this.orderedCnt);
+            ordered.setProductId(this.productId);
+
+            ordered.publishAfterCommit();
+        }
     }
 
 
@@ -93,6 +131,7 @@ public class ReservationManagement {
             Application.applicationContext.getBean(hotelmanage.external.PaymentManagementService.class).CompletePayment(payment);
             //setReserveStatus("paymentComp");
             System.out.println("PaymentCompleted ReserReservationNumber= " + getReservationNumber());
+
         }
         else if("checkOut".equals(this.getReserveStatus())){
             CheckedOut checkedOut = new CheckedOut();
@@ -171,5 +210,12 @@ public class ReservationManagement {
         PaymentPrice = paymentPrice;
     }
 
+    public Integer getProductName() {
+        return productId;
+    }
+
+    public void setProductName(Integer productId) {
+        this.productId = productId;
+    }
 
 }
